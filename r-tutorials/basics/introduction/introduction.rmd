@@ -1,7 +1,7 @@
 ---
 title: Introduction
-author: <a href="http://stanford.edu/~ejdemyr/"> Simon Ejdemyr </a> 
-date: December, 2015
+author: <a href="http://stanford.edu/~ejdemyr/"> Simon Ejdemyr & Nick Eubank </a> 
+date: July, 2021
 summary: In this first in a number of tutorials, we'll cover the very basics of
  R. If you've programmed before you can skip much of this. But
  regardless of your background, I hope you'll find this and subsequent
@@ -10,27 +10,28 @@ summary: In this first in a number of tutorials, we'll cover the very basics of
  collectively might call "data science." 
 output:
   html_document:
-     template: ../template/r-tutorial-template-v2.html
+     template: "../../assets/template/r-tutorial-template-v2.html"
      mathjax: null
 ---
 
 
 	
 
-Running R
+Getting R Running
 =================
 
 You can run R using a number of text editors or "integrated
 development environments" (IDEs). Most people prefer some other
 application than R's native environment, which provides only limited
 functionality in terms of syntax highlighting, auto-completion, and
-debugging. Alternatives include [RStudio](https://www.rstudio.com/)
-and
-[Emacs](https://www.gnu.org/software/emacs/)/[ESS](http://ess.r-project.org/). I
-very much prefer the latter, but if you've never programmed before I
-would go with RStudio (installation instructions
-[here](https://www.rstudio.com/products/rstudio/download/); note that
-you need both R and RStudio).
+debugging. Alternatives include [RStudio](https://www.rstudio.com/), 
+[VS Code](https://code.visualstudio.com/),
+[Emacs](https://www.gnu.org/software/emacs/)/[ESS](http://ess.r-project.org/), 
+and many many more. *Most* social scientists using R use RStudio, and so we'll 
+use that here. You can find the official installation instructions 
+[here](https://www.rstudio.com/products/rstudio/download/), but we'd actually recommend 
+[this installation tutorial video here](https://www.youtube.com/watch?v=ulIv0NiVTs4), 
+which also details the basic funcationality of RStudio. 
 
 All IDEs include a console and a text editor. The console is where you'll
 see the results (or *output*) of commands executed from the editor. You can
@@ -40,8 +41,8 @@ it reproducible. Typing commands in the text editor will let you
 come back to them later as long as you save them (using extension .R).
 
 
-Your first script
-======================
+Testing Your Installation
+=========================
 
 Fire up RStudio (or whatever IDE you use) and type the following two
 lines into the text editor. Then execute them, which can be done using a
@@ -51,29 +52,55 @@ class="fw">Command+Enter</span> (mac) in RStudio.
 
 ```{r}
 hello_world <- "hello world"
-hello_world 
+hello_world
 ```
 
 In case it's not obvious, R output is displayed in
 <span style="color: #969696;"> gray</span>, above which is code that you
-should type into your text editor.
+should type into your text editor. If R prints out `hello world`, then 
+you're good to go!
 
-Now execute the following code (but type it into your text editor first): 
+
+Reading R code
+======================
+
+Before we start *writing* R code, we need to first be able to read R code. 
+After all, you didn't start writing English before you could read it, did you?
+
+Let's begin with the following block of code: 
+
 ```{r eval=FALSE}
-# Create two objects and perform simple arithmetics
 a <- 5
-b <- 7
-a - b
-a + b + 10
+```
 
-# Create a third object 
+What's happening here? In R, we would read this as "assigning the value of 5 to the variable `a`" (`<-` is called the assignment operator in R). But what exactly do we mean by that? 
+
+If you'd done any programming before, you probably have an implicit notion of a variable and assignment, but in this course we'd like to provide you with an explicit metaphor we'll keep coming back to: **a variable is a box that holds a value,** and so when we assign the value of 5 to the variable `a`, we're really saying "put 5 in the box `a`," which we could draw as:
+
+[figure out how to draw code with a box next to it.]
+
+As we walk through a code, we can use this same idea to keep track of how a program evolves. For example, consider this small block of code: 
+
+:::: {.center data-latex=""}
+\alert{$\Rightarrow$} a <- 5
+    b <- 7
+    c <- a + b
+    a <- 3
+::::
+
+
+
+
+
+```
+# Create a third object
 w <- a + b
 w
 
-# Logical tests 
+# Logical tests
 w - b == a
 w - b > a
-b <- 1             #overwrite b 
+b <- 1 # overwrite b
 x <- w - b > a
 x
 ```
@@ -106,7 +133,7 @@ it has another. This will cause issues. For example, this throws an error:
 ```{r eval=FALSE}
 a <- 5
 b <- "7"
-a + b 
+a + b
 ```
 Not knowing that `b` is a character object (which often is much
 less obvious than here) would be frustrating. Other classes include
@@ -130,7 +157,7 @@ The true power of R is that it's open-source. As such, anyone can
 extend its core functionality through packages. This often results in
 remarkable improvements to how we can approach complex data tasks. In
 subsequent tutorials, I will make particular use of a set of R packages 
-developed by [Hadley Wickham](http://had.co.nz/). 
+developed by [Hadley Wickham](http://had.co.nz/) known as the `tidyverse`.
 
 To use a package you must: 
 
@@ -138,27 +165,19 @@ To use a package you must:
 2. **Load it.** You need to re-load packages every time you open R. 
 
 
-To install packages `plyr`, `dplyr`, and `tidyr`, which we'll use a lot,
+To install the package `dplyr`, which we'll use a lot,
 run
 
 ```{r eval=FALSE}
-install.packages(c("plyr", "dplyr", "tidyr"), dep = T)
+install.packages(c("dplyr"), dep = T)
 ```
 
 And to load these packages, use: 
 
 ```{r, comment = "", eval=FALSE}
-require(plyr)
 require(dplyr)
-require(tidyr)
 ```
 
-Or you can load many packages more compactly like so: 
-
-```{r, comment = "", eval=FALSE}
-pkgs <- c("plyr", "dplyr", "tidyr")
-sapply(pkgs, require, character.only = T)
-```
 
 <div style="margin-top: 15px"> </div>
 
